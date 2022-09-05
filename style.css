@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Ubuntu', sans-serif;
+}
+.container{
+    padding: 40px 0;
+    margin: 0 auto;
+    width: 600px;
+    height: 350px;
+    position: relative;
+}
+.score-board{
+    margin: 30px 0;
+    display: flex;
+    justify-content: center;
+}
+.grid{
+    width: 100%;
+    height: 100%;
+    border: 1px solid black;
+    position: absolute;
+}
+
+.player{
+    height: 100px;
+    width: 10px;
+    background: orange;
+    position: absolute;
+}
+
+.enemy{
+    height: 100px;
+    width: 10px;
+    background: orange;
+    position: absolute;
+}
+.ball{
+    width: 20px;
+    height: 20px;
+    background: rgb(99, 99, 182);
+    border-radius: 50%;
+    position: absolute;
+}
