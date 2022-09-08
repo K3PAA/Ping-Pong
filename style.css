@@ -19,7 +19,7 @@ body{
 .score-board{
     margin: 30px 0;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
 }
 .grid{
     width: 100%;
