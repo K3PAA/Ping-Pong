@@ -1,7 +1,7 @@
 // -------------------------
 
 class Player{
-    constructor({keyup, keydown, timeInterval, position, distance, score = 0}){
+    constructor({keyup, keydown, timeInterval, position, distance, score = 0, dimensions, name}){
         this.keyup = keyup
         this.keydown = keydown
         this.timeInterval = timeInterval
@@ -9,6 +9,8 @@ class Player{
         this.position = position
         this.distance = distance
         this.score = score
+        this.dimensions = dimensions
+        this.name = name
         this.upInterval = undefined
         this.downInterval = undefined
         this.element = document.createElement('div')
@@ -65,11 +67,7 @@ class Player{
     }
 
     checkForCollision(){
-        if( ballCurrenPosition[0] + ballSize >= this.position.x &&
-            ballCurrenPosition[0] <= this.position.x + plateWidth &&
-            ballCurrenPosition[1] >= this.position.y &&
-            ballCurrenPosition[1] <= this.position.y + plateHeight){
-            changeDirection()
-        }
+      
+        
     }
 }
