@@ -11,22 +11,21 @@ const enemyResultDisplay = document.querySelector('.enemyResultDisplay')
 const firstName = document.querySelector('#firstName')
 const secondName = document.querySelector('#secondName')
 
-const plateHeight = 100
-const plateWidth = 10
+const startButton = document.querySelector('.btn-start')
+const gameDisplay = document.querySelector('.container')
+const menu = document.querySelector('.menu')
+const result = document.querySelector('.result')
 
-const ballSize = 20
-
-const ballPosition = [ (gridWidth/2), (gridHeight / 2)]
-let ballCurrenPosition = ballPosition
-
+const input1 = document.querySelector('.input-one')
+const input2 = document.querySelector('.input-two')
 
 let timer
-
-let timeLeft = 99
-
+let timeLeft = 10
 let timerId
+let value1
+let value2
 
-//-----------------
+//Start game
 
 const player1 = new Player({
     keyup: 'ArrowUp',
@@ -41,7 +40,7 @@ const player1 = new Player({
         x: 10,
         y: 100
     },
-    name: 'Kuba'
+    name: undefined
 })
 
 const player2 = new Player({
@@ -57,7 +56,7 @@ const player2 = new Player({
         x: 10,
         y: 100
     },
-    name: "Bartek"
+    name: undefined
 })
 
 const ball = new Ball({
@@ -73,6 +72,11 @@ const ball = new Ball({
     },
     speed: 0.5
 })
+function startGame(){
+    
+//-----------------
+
+
 
 
 // Move Ball
@@ -96,14 +100,13 @@ function checkForCollision(){
     })
     
     if(ball.position.x > gridWidth - ball.size){
-        player2.score++
-        playerResultDisplay.innerHTML = player2.score
-
+        player1.score++
+        playerResultDisplay.innerHTML = player1.score
         ball.reset()
     }
     if(ball.position.x < 0){
-        player1.score++
-        enemyResultDisplay.innerHTML = player1.score
+        player2.score++
+        enemyResultDisplay.innerHTML = player2.score
         ball.reset()
     }
 }
@@ -111,8 +114,6 @@ function checkForCollision(){
 
 
 timerId = setInterval(moveBall, 1)
-
-
 timer = setInterval(endOfGame, 1000)
 
 function endOfGame(){
@@ -122,17 +123,56 @@ function endOfGame(){
     if(timeLeft === 0){
         clearInterval(timerId)
         clearInterval(timer)
+        gameDisplay.classList.add('notActive')
+        menu.classList.remove('notActive')
+        console.log(player1.name)
         if(player1.score > player2.score){
-            timerDisplay.innerHTML = `${player1.name} won`
+            result.innerHTML = `${player1.name} won`
         }else if(player1.score < player2.score){
-            timerDisplay.innerHTML =  `${player2.name} won`
+            result.innerHTML =  `${player2.name} won`
         }else{
-            timerDisplay.innerHTML = 'Draw'
+            result.innerHTML = 'Draw'
         }
-        window.removeEventListener('keydown', movePlayer)
     }
 }
 
 firstName.innerHTML = player1.name
 secondName.innerHTML = player2.name
+}
 
+startButton.addEventListener('click', ()=>{
+    value1 = input1.value
+    value2 = input2.value
+    
+    
+    if(value1 == '' || value1 == ' ' || value2 == '' || value2 == ' '){
+        result.innerHTML = `Enter username`
+        return
+    }else{
+        player1.score = 0
+        player2.score = 0
+
+         playerResultDisplay.innerHTML = player1.score
+        enemyResultDisplay.innerHTML = player2.score
+
+        input1.value = ''
+        input2.value = ''
+        player1.name = value1
+        player2.name = value2
+        gameDisplay.classList.toggle('notActive')
+        menu.classList.toggle('notActive')
+        setTimeout(startGame, 400)
+
+        timeLeft = 10
+
+
+        player1.position.x = 560
+        player1.position.y = 125
+        player2.position.x = 30
+        player2.position.y = 125
+        ball.position.x = 350
+        ball.position.y = 125
+        player1.draw()
+        player2.draw()
+    }
+})

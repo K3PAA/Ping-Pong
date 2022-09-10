@@ -10,6 +10,7 @@ class Player{
         this.distance = distance
         this.score = score
         this.dimensions = dimensions
+        this.playerHeight = 100
         this.name = name
         this.upInterval = undefined
         this.downInterval = undefined
@@ -37,7 +38,7 @@ class Player{
             case this.keydown:   
                 if(!this.downInterval){
                     this.downInterval = setInterval(function(){
-                        if(this.position.y < gridHeight - plateHeight )
+                        if(this.position.y < gridHeight - this.playerHeight )
                             this.position.y += this.distance
                             this.draw()
                     }.bind(this), this.timeInterval)

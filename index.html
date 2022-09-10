@@ -8,7 +8,25 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
+
+    <div class="menu">
+        <div class="name-container">
+            <div class="name-one">
+                <h1>Player One Name</h1>
+                <input class="name-input input-one" type="text">
+            </div>
+            <div class="name-two">
+                <h1>Player Two Name</h1>
+                <input class="name-input input-two" type="text">
+            </div>
+        </div>
+        <div class="info">
+            <h1 class="result"></h1>
+            <button class="btn btn-start">Start Game</button>
+        </div>
+    </div>
+
+    <div class="container notActive">
         <div class="score-board">
             <h1><span id="firstName"></span>: <span class="playerResultDisplay">0</span></h1>
             <h1 class="timer">30</h1>
@@ -20,6 +38,7 @@
         </div>
     </div>
 
+    <script src="src/Game.js"></script>
     <script src="src/Ball.js"></script>
     <script src="src/Player.js"></script>
     <script src="src/app.js"></script>
