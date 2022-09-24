@@ -1,4 +1,4 @@
-class Ball{
+export default class Ball{
     constructor({size, position, selector, direction, speed}){
         this.size = size
         this.position = JSON.parse(JSON.stringify(position));
@@ -23,6 +23,7 @@ class Ball{
     move(){
         this.position.x += this.direction.x * this.speed
         this.position.y += this.direction.y * this.speed
+        this.draw()
     }
 
     checkForWallCollision({gridHeight}){
@@ -34,11 +35,12 @@ class Ball{
         
     }
 
+        //end
     checkForPlayerCollision({player}){
-        if( this.position.x + this.size >= player.position.x &&
-            this.position.x <= player.position.x + player.dimensions.x &&
-            this.position.y >= player.position.y &&
-            this.position.y <= player.position.y + player.dimensions.y){
+        if( this.position.x + this.size > player.position.x &&
+            this.position.x < player.position.x + player.dimensions.x &&
+            this.position.y + this.size > player.position.y &&
+            this.position.y < player.position.y + player.dimensions.y){
             this.changeDirection()
         }
     }

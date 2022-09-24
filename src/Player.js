@@ -1,16 +1,18 @@
 // -------------------------
+const grid = document.querySelector('.grid')
 
-class Player{
+export default class Player{
     constructor({keyup, keydown, timeInterval, position, distance, score = 0, dimensions, name}){
         this.keyup = keyup
         this.keydown = keydown
         this.timeInterval = timeInterval
-        this.startPosition = position
-        this.position = position
+        this.startPosition = JSON.parse(JSON.stringify(position));
+        this.position = JSON.parse(JSON.stringify(position));
         this.distance = distance
         this.score = score
         this.dimensions = dimensions
         this.playerHeight = 100
+        this.gridHeight = 350
         this.name = name
         this.upInterval = undefined
         this.downInterval = undefined
@@ -38,7 +40,7 @@ class Player{
             case this.keydown:   
                 if(!this.downInterval){
                     this.downInterval = setInterval(function(){
-                        if(this.position.y < gridHeight - this.playerHeight )
+                        if(this.position.y < this.gridHeight - this.playerHeight )
                             this.position.y += this.distance
                             this.draw()
                     }.bind(this), this.timeInterval)
@@ -64,11 +66,10 @@ class Player{
     draw(){       
         this.element.style.left = this.position.x + 'px'
         this.element.style.top = this.position.y + 'px'
-        this.checkForCollision()
     }
 
-    checkForCollision(){
-      
+    get resetPosition(){
+        this.position.y = this.startPosition.y
         
     }
 }

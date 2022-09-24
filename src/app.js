@@ -1,12 +1,18 @@
+import Ball from "./Ball.js"
+import Player from "./Player.js"
+import Timer from "./Timer.js"
+
 //link HTML
 const grid = document.querySelector('.grid')
+const stop = document.querySelector('.stop')
+const start = document.querySelector('.start')
 
 const gridWidth = 600
 const gridHeight = 350
 
-const timerDisplay = document.querySelector('.timer')
 const playerResultDisplay = document.querySelector('.playerResultDisplay')
 const enemyResultDisplay = document.querySelector('.enemyResultDisplay')
+
 
 const firstName = document.querySelector('#firstName')
 const secondName = document.querySelector('#secondName')
@@ -19,8 +25,7 @@ const result = document.querySelector('.result')
 const input1 = document.querySelector('.input-one')
 const input2 = document.querySelector('.input-two')
 
-let timer
-let timeLeft = 10
+
 let timerId
 let value1
 let value2
@@ -30,12 +35,12 @@ let value2
 const player1 = new Player({
     keyup: 'ArrowUp',
     keydown: 'ArrowDown',
-    timeInterval: 50,
+    timeInterval: 1,
     position: {
         x: 560,
         y: 125
     },
-    distance: 10,
+    distance: 1,
     dimensions: {
         x: 10,
         y: 100
@@ -46,12 +51,12 @@ const player1 = new Player({
 const player2 = new Player({
     keyup: 'w',
     keydown: 's',
-    timeInterval: 50,
+    timeInterval: 1,
     position: {
         x: 30,
         y: 125
     },
-    distance: 10,
+    distance: 1,
     dimensions: {
         x: 10,
         y: 100
@@ -72,20 +77,22 @@ const ball = new Ball({
     },
     speed: 0.5
 })
-function startGame(){
+
+const time = new Timer({
+    timeLeft: 10,
+    player1: player1,
+    player2: player2,
+    timerId: timerId,
+    moveBall: moveBall()
+})
     
 //-----------------
-
-
-
-
 // Move Ball
 function moveBall(){
-    ball.move()
-    ball.draw()
-
     checkForCollision()
+    ball.move()
 }
+
 
 function checkForCollision(){
 
@@ -111,48 +118,37 @@ function checkForCollision(){
     }
 }
 
-
-
 timerId = setInterval(moveBall, 1)
-timer = setInterval(endOfGame, 1000)
 
-function endOfGame(){
-    timeLeft --
-    timerDisplay.innerHTML = timeLeft
 
-    if(timeLeft === 0){
-        clearInterval(timerId)
-        clearInterval(timer)
-        gameDisplay.classList.add('notActive')
-        menu.classList.remove('notActive')
-        console.log(player1.name)
-        if(player1.score > player2.score){
-            result.innerHTML = `${player1.name} won`
-        }else if(player1.score < player2.score){
-            result.innerHTML =  `${player2.name} won`
-        }else{
-            result.innerHTML = 'Draw'
-        }
-    }
-}
+stop.addEventListener('click', ()=> {
+    time.stop()
+    timerId = clearInterval(timerId)
+    timerId = undefined
+})
 
-firstName.innerHTML = player1.name
-secondName.innerHTML = player2.name
-}
+start.addEventListener('click', ()=> {
+    if(timerId == undefined){
+        timerId = setInterval(moveBall, 1)
+        time.start()
+    } 
+})
 
 startButton.addEventListener('click', ()=>{
     value1 = input1.value
     value2 = input2.value
     
     
-    if(value1 == '' || value1 == ' ' || value2 == '' || value2 == ' '){
-        result.innerHTML = `Enter username`
-        return
-    }else{
+    // if(value1 == '' || value1 == ' ' || value2 == '' || value2 == ' '){
+    //     result.innerHTML = `Enter username`
+    //     return
+    // }else{
         player1.score = 0
         player2.score = 0
+        time.reset()
+       
 
-         playerResultDisplay.innerHTML = player1.score
+        playerResultDisplay.innerHTML = player1.score
         enemyResultDisplay.innerHTML = player2.score
 
         input1.value = ''
@@ -161,18 +157,14 @@ startButton.addEventListener('click', ()=>{
         player2.name = value2
         gameDisplay.classList.toggle('notActive')
         menu.classList.toggle('notActive')
-        setTimeout(startGame, 400)
-
-        timeLeft = 10
-
-
-        player1.position.x = 560
-        player1.position.y = 125
-        player2.position.x = 30
-        player2.position.y = 125
-        ball.position.x = 350
-        ball.position.y = 125
-        player1.draw()
-        player2.draw()
-    }
+       
+       
+        firstName.innerHTML = player1.name
+        secondName.innerHTML = player2.name
+       
+        ball.reset()
+        time.start()
+    //}
 })
+
+
